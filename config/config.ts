@@ -120,6 +120,12 @@ export default {
           component: './CourseManage/CourseList',
         },
         {
+          path: './CourseManage/amap',
+          name: 'react-amap',
+          icon: 'cloud-server',
+          component: './MapDetail/MapDetail',
+        },
+        {
           component: './404',
         },
       ],
