@@ -126,6 +126,12 @@ export default {
           component: './MapDetail/MapDetail',
         },
         {
+          path: './ScreenShow/EchartScreen',
+          name: 'EchartScreen',
+          icon: 'cloud-server',
+          component: './ScreenShow/EchartScreen',
+        },
+        {
           component: './404',
         },
       ],
