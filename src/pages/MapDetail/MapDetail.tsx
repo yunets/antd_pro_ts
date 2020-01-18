@@ -1,115 +1,99 @@
 import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Map, Marker, Heatmap, Markers } from 'react-amap';
-import echarts from 'echarts';
-import Background from '../../assets/img/background.png';
+import {Map, Marker, Heatmap, Markers, InfoWindow} from 'react-amap';
 
-const sectionStyle = {
-  width: '100%',
-  height: '400px',
-  // makesure here is String确保这里是一个字符串，以下是es6写法
-  backgroundImage: `url(${Background})`,
-};
+
+
+const randomPosition = () => ({
+  longitude: 120 + 1 * 20,
+  latitude: 30 + Math.random() * 20
+});
+
 
 class MapApp extends React.Component {
   constructor() {
     super();
-    // Good Practice
-    debugger;
-    this.mapCenter = { longitude: 120, latitude: 30 };
-  }
-
-  render() {
-    return (
-      <div style={{ width: 600, height: 400 }}>
-        <Map
-          zoom={5}
-          center={this.mapCenter}
-          plugins={['ToolBar', 'OverView', 'MapType', 'OverView', 'Scale', 'Heatmap']}
-        />
-      </div>
-    );
-  }
-}
-
-class MapApp1 extends React.Component {
-  constructor() {
-    super();
-
-    this.allmap = null;
-  }
-
-  componentDidMount() {
-    const option = {
-      tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b}: {c} ({d}%)',
+    var _this = this;
+    this.state = {
+      curVisibleWindow: null,
+      count: 1,
+      positionA: {
+        longitude: 120,
+        latitude: 30
       },
-      legend: {
-        orient: 'vertical',
-        textStyle: {
-          //图例文字的样式
-          color: 'white',
-          fontSize: 12,
-        },
-        left: 10,
-        data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+      positionB: {
+        longitude: 130,
+        latitude: 30
       },
-      series: [
-        {
-          name: '访问来源',
-          type: 'pie',
-          radius: ['50%', '70%'],
-          avoidLabelOverlap: false,
-          label: {
-            normal: {
-              show: false,
-              position: 'center',
-            },
-            emphasis: {
-              show: true,
-              textStyle: {
-                fontSize: '30',
-                fontWeight: 'bold',
-              },
-            },
-          },
-          labelLine: {
-            normal: {
-              show: false,
-            },
-          },
-          data: [
-            { value: 335, name: '直接访问' },
-            { value: 310, name: '邮件营销' },
-            { value: 234, name: '联盟广告' },
-            { value: 135, name: '视频广告' },
-            { value: 1548, name: '搜索引擎' },
-          ],
-        },
-      ],
+      positionC: {
+        longitude: 120,
+        latitude: 20
+      },
+      positionD: {
+        longitude: 130,
+        latitude: 20
+      },
+    }
+
+    // 随机生成 10 个标记点的原始数据
+    this.mapCenter = {longitude: 130, latitude: 40};
+    this.markers = Array(10).fill(true).map(function(e, i){
+      var position = randomPosition();
+      return {
+        position,
+        // 这个属性就可以用来确定点击的是哪个坐标点
+        myIndex: i
+      }
+    });
+    this.markersEvents = {
+      click(e, marker){
+        // 通过高德原生提供的 getExtData 方法获取原始数据
+        const extData = marker.getExtData();
+        const index = extData.myIndex;
+        alert(`点击的是第${index}号坐标点`);
+        console.log(extData === _this.markers[index]);
+      }
+    }
+    const markerStyle = {
+      width: '300px',
+      padding: '5px',
+      border: '1px solid #ddd',
+      background: 'red',
     };
-
-    this.allmap = echarts.init(document.getElementById('allmap'));
-
-    this.allmap.setOption(option);
-  }
-
-  render() {
-    return (
-      <div style={{ width: '100%', height: 1300 }}>
-        <div id="allmap" style={{ width: 500, height: 400 }}>
-          11
-        </div>
-      </div>
+    this.renderMarkerFn = (extData) => (
+      <div style={markerStyle}>{`宿舍楼${extData.myIndex}`}</div>
     );
   }
+
+
+  const
+  render() {
+    return <div style={{width: '100%', height: 400}}>
+      <Map plugins={['ToolBar']} center={this.mapCenter} zoom={4}>
+        <Markers
+          render={this.renderMarkerFn}
+          markers={this.markers}
+          events={this.markersEvents}
+
+        />
+
+        <InfoWindow
+          position={this.state.positionA}
+          visible={true}
+        >
+
+          <div style={{backgroundColor:'red'}}>dddddddddddddddddddddddd</div>
+        </InfoWindow>
+      </Map>
+    </div>
+  }
 }
+
+
 
 export default (): React.ReactNode => (
   <PageHeaderWrapper>
-    <div style={sectionStyle}>
-      <MapApp1></MapApp1>
+    <div >
       <MapApp></MapApp>
     </div>
   </PageHeaderWrapper>

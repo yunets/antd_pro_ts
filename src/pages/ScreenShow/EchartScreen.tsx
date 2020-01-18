@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import echarts from 'echarts';
-import Background from '../../assets/img/background.png';
+import Background from '../../assets/img/background2.png';
 
 import chartContainer from '../../assets/img/chartContainer.png';
 
@@ -95,12 +95,20 @@ const sectionStyle = {
   // makesure here is String确保这里是一个字符串，以下是es6写法
   backgroundImage: `url(${Background})`,
 };
+
+
+
 export default (): React.ReactNode => (
   <PageHeaderWrapper>
     <div style={sectionStyle}>
+	<div className={styles.headerStyle}>
       <MapApp1></MapApp1>
+      <MapApp1></MapApp1>
+      <MapApp1></MapApp1>
+	  <MapApp1></MapApp1>
       <MapApp1></MapApp1>
       <MapApp1></MapApp1>
     </div>
+	</div>
   </PageHeaderWrapper>
 );
