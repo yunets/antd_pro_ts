@@ -132,6 +132,12 @@ export default {
           component: './MapDetail/HeatMap',
         },
         {
+          path: './MapDetail/HotMap',
+          name: '校园散点热力图',
+          icon: 'cloud-server',
+          component: './MapDetail/HotMap',
+        },
+        {
           path: './ScreenShow/EchartScreen',
           name: 'EchartScreen',
           icon: 'cloud-server',
